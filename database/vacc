@@ -1,0 +1,56 @@
+import random
+
+class VacuumCleanerEnvironment:
+    def __init__(self):
+        # Environment starts with both locations dirty
+        self.state = {'A': 'dirty', 'B': 'dirty'}
+    
+    def is_dirty(self, location):
+        """Returns True if the location is dirty."""
+        return self.state[location] == 'dirty'
+    
+    def clean(self, location):
+        """Cleans the location."""
+        self.state[location] = 'clean'
+    
+    def print_state(self):
+        """Prints the current state of the environment."""
+        print(f"Location A is {self.state['A']}, Location B is {self.state['B']}")
+    
+class VacuumCleanerAgent:
+    def __init__(self, environment):
+        self.environment = environment
+        self.current_location = 'A'  # Starting at location A
+    
+    def move(self, location):
+        """Moves the agent to a new location."""
+        self.current_location = location
+    
+    def act(self):
+        """Agent decides what action to take."""
+        # Check if current location is dirty
+        if self.environment.is_dirty(self.current_location):
+            print(f"Cleaning {self.current_location}")
+            self.environment.clean(self.current_location)
+        else:
+            print(f"{self.current_location} is already clean.")
+        
+        # Move to the other location (switch between A and B)
+        if self.current_location == 'A':
+            self.move('B')
+        else:
+            self.move('A')
+
+# Main execution
+def run_vacuum_cleaner_simulation(steps=10):
+    env = VacuumCleanerEnvironment()
+    agent = VacuumCleanerAgent(env)
+    
+    for step in range(steps):
+        print(f"Step {step + 1}:")
+        env.print_state()
+        agent.act()  # Agent performs an action
+        print()  # Newline for clarity
+
+# Run the simulation
+run_vacuum_cleaner_simulation()
